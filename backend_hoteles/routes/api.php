@@ -30,4 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tipos-habitacion', TipoHabitacionController::class);
     Route::apiResource('acomodaciones', AcomodacionController::class);
     Route::apiResource('habitaciones', HabitacionController::class);
+    // Ruta personalizada para obtener habitaciones por hotel_id
+    Route::get('/habitaciones/hotel/{hotelId}', [HabitacionController::class, 'getHabitacionesPorHotel']);
 });

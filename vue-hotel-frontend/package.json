@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.7.7",
+    "boostrap": "^2.0.0",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
+    "font-awesome": "^4.7.0",
     "vue": "^3.2.13"
   },
   "devDependencies": {
@@ -25,7 +28,9 @@
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "node": true,
+      "browser": true,
+      "es2021": true
     },
     "extends": [
       "plugin:vue/vue3-essential",
@@ -33,6 +38,9 @@
     ],
     "parserOptions": {
       "parser": "@babel/eslint-parser"
+    },
+    "globals": {
+      "bootstrap": "readonly"
     },
     "rules": {}
   },

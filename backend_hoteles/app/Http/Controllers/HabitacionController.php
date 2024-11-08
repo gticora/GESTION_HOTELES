@@ -61,6 +61,40 @@ class HabitacionController extends Controller
     }
 
     /**
+     * Obtener habitaciones por hotel_id.
+     *
+     * @param  int  $hotelId
+     * @return \Illuminate\Http\Response
+     */
+    public function getHabitacionesPorHotel($hotelId)
+    {
+        try {
+            // Consulta directamente en el controlador para obtener las habitaciones de un hotel por su ID
+            $habitaciones = Habitacion::where('hotel_id', $hotelId)
+            ->with([
+                'acomodacion:id,nombre',       // Trae solo el campo 'nombre' de la acomodación
+                'tipoHabitacion:id,nombre',     // Trae solo el campo 'nombre' del tipo de habitación
+                'hotel:id,nombre'              // Trae solo el campo 'nombre' del hotel
+            ])
+            ->get(['id', 'hotel_id', 'tipo_habitacion_id', 'acomodacion_id', 'cantidad']);  // Selecciona los campos que deseas de la tabla Habitacion
+            
+            // Verificar si no se encontraron habitaciones
+            if ($habitaciones->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron habitaciones para este hotel.'], 404);
+            }
+
+            // Retornar las habitaciones en formato JSON
+            return response()->json($habitaciones);
+            
+        } catch (\Exception $e) {
+            // Manejar cualquier excepción y devolver el error en formato JSON
+            return response()->json([
+                'error' => $e->getMessage() // El mensaje de la excepción
+            ], 400); // Código de estado 400 (Bad Request)
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

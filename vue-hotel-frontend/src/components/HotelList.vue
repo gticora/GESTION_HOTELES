@@ -22,11 +22,53 @@
           <td>{{ hotel.numero_habitaciones }}</td> <!-- Muestra el número de habitaciones -->
           <td>{{ hotel.direccion }}</td> <!-- Muestra el número de habitaciones -->
           <td>
-            <button @click="deleteHotel(hotel.id)">Eliminar</button>
+            <button class="btn btn-info" @click="verHabitaciones(hotel.id)" title="Ver Habitaciones">
+              <i class="fas fa-bed"></i>
+            </button>
+
+            <button class="btn btn-danger" @click="deleteHotel(hotel.id)" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- Modal para mostrar las habitaciones -->
+    <div class="modal fade" id="habitacionesModal" tabindex="-1" aria-labelledby="habitacionesModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="habitacionesModalLabel">Habitaciones del Hotel</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+             <!-- Aquí se muestra el mensaje de error si ocurre uno -->
+            <div v-if="error" class="alert alert-danger">
+              {{ error }}
+            </div>
+            <table class="table" v-if="habitaciones.length > 0">
+              <thead>
+                <tr>
+                  <th>Tipo de Habitación</th>
+                  <th>Acomodación</th>
+                  <th>Cantidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="habitacion in habitaciones" :key="habitacion.id">
+                  <td>{{ habitacion.tipo_habitacion.nombre }}</td>
+                  <td>{{ habitacion.acomodacion.nombre }}</td>
+                  <td>{{ habitacion.cantidad }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
@@ -39,6 +81,7 @@ import HotelService from '@/services/HotelService';
     data() {
       return {
         hoteles: [],
+        habitaciones: [], 
         error: null,
       };
     },
@@ -94,6 +137,32 @@ import HotelService from '@/services/HotelService';
           console.error(error);
         }
       },
+
+      async verHabitaciones(hotelId) {
+        this.habitaciones = [];
+        this.error = '';
+        try {
+          const response = await apiClient.get(`/habitaciones/hotel/${hotelId}`);
+          this.habitaciones = response.data;
+          const modalElement = document.getElementById('habitacionesModal');
+          const modal = new window.bootstrap.Modal(modalElement);
+          modal.show();  // Asegúrate de que se muestra correctamente
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            // Si el código de error es 404, muestra el mensaje de la API
+            this.error = error.response.data.message || 'No se pudieron encontrar habitaciones.';
+          } else {
+            // En otros casos, muestra un mensaje genérico
+            this.error = 'No se pudo obtener las habitaciones del hotel.';
+          }
+          //console.error(error);
+          
+          // Mostrar el modal con el mensaje de error
+          const modalElement = document.getElementById('habitacionesModal');
+          const modal = new window.bootstrap.Modal(modalElement);
+          modal.show();
+        }
+      }
     },
   
     mounted() {
