@@ -17,61 +17,68 @@ class AcomodacionController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255|unique:acomodaciones',
-            'tipo_habitacion_id' => 'required|exists:tipo_habitaciones,id',
-            'descripcion' => 'nullable|string',
         ]);
-
-        // Validar que el tipo de habitación y acomodación sean correctos
-        $tipoHabitacion = TipoHabitacion::find($request->tipo_habitacion_id);
-        if ($tipoHabitacion->nombre == 'Estándar' && !in_array($request->nombre, ['Sencilla', 'Doble'])) {
-            return response()->json(['error' => 'La acomodación para tipo Estándar solo puede ser Sencilla o Doble.'], 400);
+        
+        try {
+            // Crear acomodacion
+            $acomodacion = Acomodacion::create($request->all());
+            return response()->json($acomodacion, 201);
+        } catch (\Exception $e) {
+            // Capturar cualquier excepción que se haya lanzado desde el modelo
+            // Devolver el error como respuesta en formato JSON
+            return response()->json([
+                'error' => $e->getMessage() // El mensaje de la excepción
+            ], 400); // ajustar el código de estado (400 en este caso) según el tipo de error
         }
-        if ($tipoHabitacion->nombre == 'Junior' && !in_array($request->nombre, ['Triple', 'Cuádruple'])) {
-            return response()->json(['error' => 'La acomodación para tipo Junior solo puede ser Triple o Cuádruple.'], 400);
-        }
-        if ($tipoHabitacion->nombre == 'Suite' && !in_array($request->nombre, ['Sencilla', 'Doble', 'Triple'])) {
-            return response()->json(['error' => 'La acomodación para tipo Suite solo puede ser Sencilla, Doble o Triple.'], 400);
-        }
-
-        $acomodacion = Acomodacion::create($request->all());
-
-        return response()->json($acomodacion, 201);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Acomodacion  $acomodacion
+     * @return \Illuminate\Http\Response
+     */
 
     public function show(Acomodacion $acomodacion)
     {
         return response()->json($acomodacion);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Acomodacion  $acomodacion
+     * @return \Illuminate\Http\Response
+     */
+
     public function update(Request $request, Acomodacion $acomodacion)
     {
         $request->validate([
             'nombre' => 'string|max:255|unique:acomodaciones,nombre,' . $acomodacion->id,
-            'tipo_habitacion_id' => 'exists:tipo_habitaciones,id',
-            'descripcion' => 'nullable|string',
         ]);
-
-        // Validar que el tipo de habitación y acomodación sean correctos
-        $tipoHabitacion = TipoHabitacion::find($request->tipo_habitacion_id);
-        if ($tipoHabitacion->nombre == 'Estándar' && !in_array($request->nombre, ['Sencilla', 'Doble'])) {
-            return response()->json(['error' => 'La acomodación para tipo Estándar solo puede ser Sencilla o Doble.'], 400);
+        try {
+            // Crear acomodacion
+            $acomodacion->update($request->all());
+            return response()->json($acomodacion);
+        } catch (\Exception $e) {
+            // Capturar cualquier excepción que se haya lanzado desde el modelo
+            // Devolver el error como respuesta en formato JSON
+            return response()->json([
+                'error' => $e->getMessage() // El mensaje de la excepción
+            ], 400); // ajustar el código de estado (400 en este caso) según el tipo de error
         }
-        if ($tipoHabitacion->nombre == 'Junior' && !in_array($request->nombre, ['Triple', 'Cuádruple'])) {
-            return response()->json(['error' => 'La acomodación para tipo Junior solo puede ser Triple o Cuádruple.'], 400);
-        }
-        if ($tipoHabitacion->nombre == 'Suite' && !in_array($request->nombre, ['Sencilla', 'Doble', 'Triple'])) {
-            return response()->json(['error' => 'La acomodación para tipo Suite solo puede ser Sencilla, Doble o Triple.'], 400);
-        }
-
-        $acomodacion->update($request->all());
-
-        return response()->json($acomodacion);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Acomodacion  $acomodacion
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Acomodacion $acomodacion)
     {
         $acomodacion->delete();
-
         return response()->json(null, 204);
     }
 }

@@ -13,12 +13,12 @@ class HotelSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Hotel::create([
-            'nombre' => 'Hotel de Prueba',
-            'ciudad' => 'Ciudad X',
-            'numero_habitaciones' => 100,
+        Hotel::create([
+            'nombre' => 'Hotel test',
+            'ciudad' => 'Ibague',
+            'numero_habitaciones' => 10,
             'direccion' => 'Calle Ficticia 123',
-            'nit' => '123456789',
+            'nit' => '151515',
         ]);
     }
 }

@@ -20,6 +20,16 @@ class Habitacion extends Model
     protected static function booted()
     {
         static::creating(function ($habitacion) {
+
+            // Verificar que no exista otra habitación con el mismo tipo y acomodación para el mismo hotel
+            $existingHabitacion = Habitacion::where('hotel_id', $habitacion->hotel_id)
+            ->where('tipo_habitacion_id', $habitacion->tipo_habitacion_id)
+            ->where('acomodacion_id', $habitacion->acomodacion_id)
+            ->exists();
+
+            if ($existingHabitacion) {
+                throw new \Exception("Ya existe una habitación con este tipo y acomodación para este hotel.");
+            }
             // Validar que el total de habitaciones no supere el máximo
             $hotel = $habitacion->hotel;
             $totalHabitaciones = $hotel->habitaciones()->sum('cantidad') + $habitacion->cantidad;
