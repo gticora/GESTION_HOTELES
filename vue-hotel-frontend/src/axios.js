@@ -34,15 +34,6 @@ export const login = async (email, password) => {
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
   
-  // Función para obtener la lista de hoteles (ya autenticado)
-  export const fetchHotelList = async () => {
-    try {
-      const response = await apiClient.get('/hoteles'); // Ruta para obtener la lista de hoteles
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener hoteles:', error);
-      throw error;
-    }
-  };
+
 
 export default apiClient;

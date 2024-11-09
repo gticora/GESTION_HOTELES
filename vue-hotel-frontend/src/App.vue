@@ -1,19 +1,13 @@
 <template>
   <div id="app">
-    <HotelList />
+    <router-view /> 
   </div>
 </template>
 
 
 <script>
-/*import HelloWorld from './components/HelloWorld.vue'*/
-import HotelList from './components/HotelList.vue';
-
 export default {
   name: 'App',
-  components: {
-    HotelList
-  }
 }
 </script>
 <style>

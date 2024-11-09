@@ -1,6 +1,10 @@
 <template>
      <div>
     <h1>Lista de Hoteles</h1>
+    <!-- Contenedor con d-flex para alinear el botón a la izquierda -->
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-success me-3" @click="irANuevoHotel">Nuevo Hotel</button>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -86,6 +90,9 @@ import HotelService from '@/services/HotelService';
       };
     },
     methods: {
+      irANuevoHotel() {
+        this.$router.push('/hoteles/nuevo');  // Redirige a la ruta de nuevo hotel
+      },
       // Método para realizar el login
       async iniciarSesion() {
         try {
@@ -112,9 +119,6 @@ import HotelService from '@/services/HotelService';
           // Verificar si hay un token en localStorage
           const token = localStorage.getItem('authToken');
           if (token) {
-            // Establecer el token en los headers de la solicitud
-            apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  
             // Obtener la lista de hoteles
             const response = await HotelService.getHotels();
             this.hoteles = response.data;

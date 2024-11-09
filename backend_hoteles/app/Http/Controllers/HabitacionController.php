@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Habitacion;
+use Illuminate\Validation\ValidationException;
+
 class HabitacionController extends Controller
 {
     /**
@@ -26,26 +28,30 @@ class HabitacionController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos de la habitación
-        $request->validate([
-            'hotel_id' => 'required|exists:hoteles,id',
-            'tipo_habitacion_id' => 'required|exists:tipos_habitaciones,id',
-            'acomodacion_id' => 'required|exists:acomodaciones,id',
-            'cantidad' => 'required|numeric',
-        ]);
-
         try {
+            // Validar los datos de la habitación
+            $request->validate([
+                'hotel_id' => 'required|exists:hoteles,id',
+                'tipo_habitacion_id' => 'required|exists:tipos_habitaciones,id',
+                'acomodacion_id' => 'required|exists:acomodaciones,id',
+                'cantidad' => 'required|numeric',
+            ]);
             // Crear la habitación
             $habitacion = Habitacion::create($request->all());
             // Si todo va bien, devolver la respuesta con los datos de la habitación creada
             return response()->json($habitacion, 201);
             
-        } catch (\Exception $e) {
-            // Capturar cualquier excepción que se haya lanzado desde el modelo
-            // Devolver el error como respuesta en formato JSON
+        } catch (ValidationException $e) {
+            // Si la validación falla, devolver los errores de validación
             return response()->json([
-                'error' => $e->getMessage() // El mensaje de la excepción
-            ], 400); // Ajustar el código de estado (400 en este caso) según el tipo de error
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            // Capturar otras excepciones
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
         }
     }
 
