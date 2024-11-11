@@ -50,7 +50,8 @@ class HabitacionController extends Controller
         } catch (\Exception $e) {
             // Capturar otras excepciones
             return response()->json([
-                'error' => $e->getMessage()
+                'message' => 'Validation failed',
+                'errors' => $e->getMessage()
             ], 400);
         }
     }
