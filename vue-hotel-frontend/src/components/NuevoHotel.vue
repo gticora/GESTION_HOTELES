@@ -39,7 +39,6 @@
           <div v-if="errors && errors.numero_habitaciones" class="text-danger">{{ errors.numero_habitaciones[0] }}</div>
         </div>
       </div>
-
       <div class="d-flex justify-content-center mt-4">
         <button type="submit" class="btn btn-primary me-3">Crear Hotel</button>
         <button type="button" class="btn btn-secondary" @click="regresarAlListado">Regresar</button>

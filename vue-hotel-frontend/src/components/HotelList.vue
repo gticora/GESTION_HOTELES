@@ -26,12 +26,11 @@
           <td>{{ hotel.numero_habitaciones }}</td> <!-- Muestra el número de habitaciones -->
           <td>{{ hotel.direccion }}</td> <!-- Muestra el número de habitaciones -->
           <td>
-            <button class="btn btn-info" @click="verHabitaciones(hotel.id)" title="Ver Habitaciones">
+            <button class="btn btn-info me-3" @click="verHabitaciones(hotel.id)" title="Ver Habitaciones">
               <i class="fas fa-bed"></i>
             </button>
-
-            <button class="btn btn-danger" @click="deleteHotel(hotel.id)" title="Eliminar">
-              <i class="fas fa-trash-alt"></i>
+            <button class="btn btn-primary" @click="crearHabitacion(hotel.id)" title="Crear Habitación">
+             <i class="fas fa-plus-circle"></i>
             </button>
           </td>
         </tr>
@@ -73,7 +72,6 @@
         </div>
       </div>
     </div>
-    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
   
@@ -166,6 +164,10 @@ import HotelService from '@/services/HotelService';
           const modal = new window.bootstrap.Modal(modalElement);
           modal.show();
         }
+      },
+      crearHabitacion(hotelId) {
+        // Redirige al componente de creación de habitaciones, pasando el ID del hotel como parámetro
+        this.$router.push({ name: 'CrearHabitacion', params: { hotelId } });
       }
     },
   
