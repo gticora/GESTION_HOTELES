@@ -105,9 +105,18 @@ Route::get('habitaciones/hotel/{id}', 'HabitacionController@show');
 Route::delete('hoteles/{id}', 'HotelController@destroy');
 ```
 
-![image](https://github.com/user-attachments/assets/6537f2c1-0ec8-4854-b788-78b2af8e167f)
+![image](https://github.com/user-attachments/assets/8f664ffa-c2e4-4ab0-a077-e55778a614bb)
+![image](https://github.com/user-attachments/assets/30dbc3bc-1f48-4caa-92be-bb086076c38f)
+![image](https://github.com/user-attachments/assets/464fbf3b-e841-410a-be85-bcb5278f29ae)
+![image](https://github.com/user-attachments/assets/ccf85dd2-5ecd-47d9-91e8-cdfd672ff870)
+![image](https://github.com/user-attachments/assets/4932cc57-9d33-432e-9cc8-dffde29ae428)
+![image](https://github.com/user-attachments/assets/22b635e3-771a-4ccc-a61f-056612736b5a)
 
-![image](https://github.com/user-attachments/assets/4efd34c9-b0e6-4e16-9482-b7c4b655944b)
+
+
+
+
+
 
 
 
