@@ -51,7 +51,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Primavera\",\r\n    \"ciudad\": \"Pererira\",\r\n    \"numero_habitaciones\": 10,\r\n    \"direccion\": \"Calle Ficticia 456\",\r\n    \"nit\": \"00018241\"\r\n}\r\n",
+					"raw": "{\r\n    \"nombre\": \"Hotel decameron cartagena\",\r\n    \"ciudad\": \"Cartagena\",\r\n    \"numero_habitaciones\": 10,\r\n    \"direccion\": \"Calle Ficticia 456\",\r\n    \"nit\": \"123456789\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +59,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/hoteles",
+					"raw": "http://127.0.0.1:8000/api/hoteles/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -70,7 +70,8 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"hoteles"
+						"hoteles",
+						""
 					]
 				}
 			},
@@ -197,6 +198,52 @@
 					"path": [
 						"api",
 						"habitaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar_HabitacionesByIdHotel",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|WBPx4YKoidhPzKUwrBQpYBwA5zHqB9WMpnnTcRub22037290",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/habitaciones/hotel/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"habitaciones",
+						"hotel",
+						"1"
 					]
 				}
 			},
