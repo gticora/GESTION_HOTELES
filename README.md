@@ -2,6 +2,8 @@
 
 Aplicación de gestión de hoteles con un frontend en Vue.js y un backend en Laravel.
 
+URL APLICATIVO DESPLEGADO: https://gestionhotel.vercel.app/hoteles
+
 ## Estructura del Proyecto
 
 Este proyecto está dividido en dos partes principales:
